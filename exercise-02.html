@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+    // const element = document.createElement('div')
+    // element.textContent = 'Hello World'
+    // element.classname = 'container'
+    // rootElement.appendChild(element)
+    // const element = React.createElement(
+    //   'div',
+    //    {
+    //      className: 'container',
+    //      children: ['<div style="#FF00CC">Hello World</div>', 'Goodbye World 1']
+    //    }
+    // )
+    const content = 'Hello World'
+    const myClassName = 'container'
+    const props = {
+      className: 'container',
+      children: 'Hello World'
+    }
+    const element = <div {...props} className="my-class"></div>
+    console.log(element)
+    ReactDOM.render(element, rootElement)
+  </script>
+
+</body>
+
+</html>
