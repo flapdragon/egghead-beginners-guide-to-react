@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  <script type="text/babel">
+    const rootElement = document.getElementById('root')
+    const Message = (props) => <div>{props.msg}</div>
+    const element = (
+      <div className="container">
+        <Message msg='I have 3 kids and no money, why I can’t I have no kids and 3 money.?' />
+      </div>
+    )
+    console.log(element)
+    ReactDOM.render(element, rootElement)
+  </script>
+
+</body>
+
+</html>
