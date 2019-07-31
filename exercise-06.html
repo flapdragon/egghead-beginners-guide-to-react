@@ -1,0 +1,40 @@
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script type="text/babel">
+    const rootElement = document.getElementById('root')
+    // 1
+    // const time = new Date().toLocaleTimeString()
+    // const element = <div>It is {time}</div>
+    // ReactDOM.render(element, rootElement)
+    // 2, only re-renders what is changed
+    // function tick() {
+    //   const time = new Date().toLocaleTimeString()
+    //   const element = <div>It is {time}</div>
+    //   ReactDOM.render(element, rootElement)
+    // }
+    // tick()
+    // setInterval(tick, 1000)
+    // 3, iife
+    // 3 note: iifes will not work here without ending the code above with a semi-colon;
+    // ;(function tick() {
+    //   const time = new Date().toLocaleTimeString()
+    //   const element = <div>It is {time}</div>
+    //   ReactDOM.render(element, rootElement)
+    // })()
+    // 4, inputs, loses focus, react re-renders everything
+    function tick() {
+      const time = new Date().toLocaleTimeString()
+      const element = `
+        <div>It is<br />
+          <input value="${time}" /><br />
+          <input value="${time}" />
+        </div>
+      `
+      rootElement.innerHTML = element
+      // ReactDOM.render(element, rootElement)
+    }
+    tick()
+    setInterval(tick, 1000)
+</script>
