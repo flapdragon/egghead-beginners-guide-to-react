@@ -1,0 +1,99 @@
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<style>
+.box {
+  width: 120px;
+  height: 120px;
+}
+.box--small {
+  width: 60px;
+  height: 60px;
+}
+.box--medium {
+  width: 120px;
+  height: 120px;
+}
+.box--large {
+  width: 180px;
+  height: 180px;
+}
+</style>
+<script type="text/babel">
+    const rootElement = document.getElementById('root')
+    // 1
+    // const element = (
+    //   <div>
+    //     <div
+    //       className="box box--small"
+    //       style={{paddingLeft: '20px'}}>box</div>
+    //   </div>
+    // )
+
+    // 2
+    // const className = 'box box--small'
+    // const props = {
+    //   className,
+    //   style: {paddingLeft: 20}
+    // }
+    // const element = (
+    //   <div>
+    //     <div {...props}>box</div>
+    //   </div>
+    // )
+
+    // 3, component
+    // function Box({style, className = '', ...rest}) {
+    //   return (
+    //     <div
+    //       className={`box ${className}`}
+    //       style={{paddingLeft: 20, ...style}}
+    //       {...rest}
+    //     />
+    //   )
+    // }
+    // const element = (
+    //   <div>
+    //     <Box className="box--small" style={{backgroundColor: 'lightblue'}}>small box</Box>
+    //   </div>
+    // )
+
+    // 4
+    // function Box({style, className = '', ...rest}) {
+    //   return (
+    //     <div
+    //       className={`box ${className}`}
+    //       style={{paddingLeft: 20, ...style}}
+    //       {...rest}
+    //     />
+    //   )
+    // }
+    // const element = (
+    //   <div>
+    //     <Box className="box--small" style={{backgroundColor: 'lightblue'}}>small box</Box>
+    //     <Box className="box--medium" style={{backgroundColor: 'pink'}}>medium box</Box>
+    //     <Box className="box--large" style={{backgroundColor: 'BurlyWood'}}>large box</Box>
+    //   </div>
+    // )
+
+    // 5
+    function Box({style, size, className = '', ...rest}) {
+      const sizeClassName = size ? `box--${size}` : ''
+      return (
+        <div
+          className={`box ${className} ${sizeClassName}`}
+          style={{paddingLeft: 20, ...style}}
+          {...rest}
+        />
+      )
+    }
+    const element = (
+      <div>
+        <Box size="small" style={{backgroundColor: 'lightblue'}}>small box</Box>
+        <Box size="medium" style={{backgroundColor: 'pink'}}>medium box</Box>
+        <Box size="large" style={{backgroundColor: 'BurlyWood'}}>large box</Box>
+      </div>
+    )
+    ReactDOM.render(element, rootElement)
+</script>
