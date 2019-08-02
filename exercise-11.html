@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.0.0-rc.3/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.0.0-rc.3/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<style>
+</style>
+
+<script type="text/babel">
+// 1, bind(this)
+// class Counter extends React.Component {
+//   constructor(...args) {
+//     super(...args)
+//     this.state = {count: 0}
+//     this.handleClick = this.handleClick.bind(this)
+//   }
+//
+//   handleClick() {
+//     this.setState(({count}) => ({
+//       count: count + 1
+//     }))
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <button
+//           onClick={this.handleClick}>
+//           {/* onClick={this.handleClick.bind(this)}> you can also bind it here and in the constructor. i don't know what the implications of that are. */}
+//           {this.state.count}
+//         </button>
+//         {/* <button
+//           onClick={this.handleClick}> // just proving you have to bind every single usage
+//           {this.state.count}
+//         </button> */}
+//       </div>
+//     )
+//   }
+// }
+
+// 2
+// class Counter extends React.Component {
+//   constructor(...args) {
+//     super(...args)
+//   }
+//   state = {count: 0}
+//   handleClick = this.handleClick.bind(this)
+//
+//   handleClick() {
+//     this.setState(({count}) => ({
+//       count: count + 1
+//     }))
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <button
+//           onClick={this.handleClick}>
+//           {this.state.count}
+//         </button>
+//       </div>
+//     )
+//   }
+// }
+
+// 3, bind directly to the function
+// class Counter extends React.Component {
+//   state = {count: 0}
+//   handleClick = function() {
+//     this.setState(({count}) => ({
+//       count: count + 1
+//     }))
+//   }.bind(this)
+//   render() {
+//     return (
+//       <div>
+//         <button
+//           onClick={this.handleClick}>
+//           {this.state.count}
+//         </button>
+//       </div>
+//     )
+//   }
+// }
+
+// 4, don't bind, make it an anonymous fat arrow function, which can't be bound and has its own lexical this scope
+class Counter extends React.Component {
+  state = {count: 0}
+  handleClick = () => {
+    this.setState(({count}) => ({
+      count: count + 1
+    }))
+  }
+  render() {
+    return (
+      <div>
+        <button
+          onClick={this.handleClick}>
+          {this.state.count}
+        </button>
+      </div>
+    )
+  }
+}
+const element = <Counter />
+ReactDOM.render(
+  element,
+  document.getElementById('root'),
+)
+</script>
+
+</body>
+</html>
