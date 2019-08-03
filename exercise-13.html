@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+<script src="https://unpkg.com/vanilla-tilt@1.4.1/dist/vanilla-tilt.min.js"></script>
+<style>
+<!-- Lots of random tangents it's friday night why am i sober? tonight google fonts and learning possibly re-learning emmet shortcuts -->
+@import url(http://fonts.googleapis.com/css?family=Alegreya+Sans:400,600);
+body, div, table { color: #000000; font: 16px "Alegreya Sans", sans-serif; font-weight: 400; }
+</style>
+
+<script type="text/babel">
+// 1
+class NameForm extends React.Component {
+  handleSubmit = (event) => {
+    event.preventDefault()
+    console.log({target: event.target}) // also went on javascript-snippets tangent for console.log
+    console.log(event.target[0].value)
+    console.log(event.target.elements.username.value)
+    console.log(event.target.elements.someIdLove.value)
+    console.log(this.inputNode.value)
+  }
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" name="username" id="someIdLove" ref={node => (this.inputNode = node)} />
+        </label>
+        <button type="submit">Submit</button> {/* emmet shortcut btn:s */}
+      </form>
+    )
+  }
+}
+
+ReactDOM.render(
+  <NameForm />,
+  document.getElementById('root')
+)
+</script>
+</body>
+</html>
