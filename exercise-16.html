@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>egghead.io beginner's guide to react</title>
+</head>
+
+<body>
+
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<style>
+/* font tangent */
+@font-face {
+font-family: 'Serithai Regular';
+src: url('fonts/serithai/Serithai-Regular.ttf') format('truetype');
+}
+body, select, input, textarea {
+  color: #292929;
+  font: 16px "Serithai Regular", sans-serif;
+  font-weight: 400;
+}
+</style>
+
+<script type="text/babel">
+  // 1
+  // class App extends React.Component {
+  // static allItems = [
+  //   {id: 'a', value: 'apple'},
+  //   {id: 'o', value: 'orange'},
+  //   {id: 'g', value: 'grape'},
+  //   {id: 'p', value: 'pear'},
+  // ]
+  //
+  // render() {
+  //   const {items} = this.state
+  //   return (
+  //     <div>
+  //       <button
+  //         disabled={items.length >= App.allItems.length}
+  //         onClick={this.addItem}
+  //       >
+  //         +
+  //       </button>
+  //       {i.value}:
+  //       <input />
+  //       {items.map(item => (
+  //         <div key={item.id}>{item.value}</div>
+  //       ))}
+  //     </div>
+  //   )
+  // }
+  // }
+
+  // 2
+  // class App extends React.Component {
+  // static allItems = [
+  //   {id: 'a', value: 'apple'},
+  //   {id: 'o', value: 'orange'},
+  //   {id: 'g', value: 'grape'},
+  //   {id: 'p', value: 'pear'},
+  // ]
+  // state = {items: []}
+  // addItem = () => {
+  //   this.setState(({items}) => ({
+  //     items: [
+  //       ...items,
+  //       App.allItems.find(
+  //         i => !items.includes(i),
+  //       ),
+  //     ],
+  //   }))
+  // }
+  // removeItem = item => {
+  //   this.setState(({items}) => ({
+  //     items: items.filter(i => i !== item),
+  //   }))
+  // }
+  // render() {
+  //   const {items} = this.state
+  //   return (
+  //     <div>
+  //       <button
+  //         disabled={
+  //           items.length >= App.allItems.length
+  //         }
+  //         onClick={this.addItem}
+  //       >
+  //         +
+  //       </button>
+  //       {items.map((i, index) => (
+  //         <div key={i.id}> {/* index doesn't work here because it also changes. it's just a count of current elements, which changes with updates to the state. */}
+  //           <button
+  //             onClick={() => this.removeItem(i)}
+  //           >
+  //             -
+  //           </button>
+  //           {i.id}, {i.value}, {index}: {/* i want to see it with my face orbs. */}
+  //           <input />
+  //         </div>
+  //       ))}
+  //     </div>
+  //   )
+  // }
+  // }
+
+// 3
+// a key is not an index, keys are not indeces
+class FocusDemo extends React.Component {
+  state = {
+    items: [
+      {id: 'a', value: 'apple'},
+      {id: 'o', value: 'orange'},
+      {id: 'g', value: 'grape'},
+      {id: 'p', value: 'pear'},
+    ],
+  }
+
+  componentDidMount() {
+    setInterval(this.randomizeItems, 1000)
+  }
+
+  randomizeItems = () => {
+    this.setState(({items}) => ({
+      items: shuffle(items),
+    }))
+  }
+
+  render() {
+    return (
+      <div>
+        <div>
+          <h1>Without Key</h1>
+          {this.state.items.map(item => (
+            <input value={item.value} />
+          ))}
+        </div>
+        <div>
+          <h1>With Key as Index</h1>
+          {this.state.items.map((item, index) => (
+            <input
+              key={index}
+              value={item.value}
+            />
+          ))}
+        </div>
+        <div>
+          <h1>With Key</h1>
+          {this.state.items.map(item => (
+            <input
+              key={item.id}
+              value={item.value}
+            />
+          ))}
+        </div>
+      </div>
+    )
+  }
+}
+
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(
+      Math.random() * currentIndex,
+    )
+    currentIndex -= 1
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex]
+    array[currentIndex] = array[randomIndex]
+    array[randomIndex] = temporaryValue
+  }
+  return array
+}
+
+ReactDOM.render(
+  <FocusDemo />,
+  document.getElementById('root'),
+)
+</script>
+
+</body>
+</html>
