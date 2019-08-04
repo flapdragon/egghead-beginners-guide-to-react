@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>egghead.io beginner's guide to react</title>
+</head>
+
+<body>
+
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<style>
+/* font tangent */
+@font-face {
+font-family: 'Big Noodle Titling';
+src: url('fonts/bignoodletitling/big_noodle_titling.ttf') format('truetype');
+}
+body, select, input, textarea {
+  color: #000000;
+  font: 16px "Big Noodle Titling", sans-serif;
+  font-weight: 400;
+}
+</style>
+
+<script type="text/babel">
+class MyFancyForm extends React.Component {
+  static availableOptions = [
+    'apple',
+    'grape',
+    'cherry',
+    'orange',
+    'pear',
+    'peach',
+  ]
+
+  state = {
+    multiline: '',
+    commaSeparated: '',
+    multiSelect: []
+  }
+
+  handleCommaSeparatedChange = event => {
+    // this.setState({
+      //   commaSeparated: value,
+      //   multiline: value.split(',')
+      //     .map(v => v.trim())
+      //     .filter(Boolean)
+      //     .join('\n')
+      // })
+    const {value} = event.target
+    const allVals = value
+      .split(',')
+      .map(v => v.trim())
+      .filter(Boolean)
+    this.setState({
+      commaSeparated: value,
+      multiline: allVals.join('\n'),
+      multiSelect: allVals.filter(v =>
+        MyFancyForm.availableOptions.includes(v),
+      )
+    })
+  }
+
+  handleMultilineChange = event => {
+    // this.setState({
+      //   commaSeparated: value
+      //     .split('\n')
+      //     .map(v => v.trim())
+      //     .filter(Boolean)
+      //     .join(','),
+      //   multiline: value
+      // })
+    const {value} = event.target
+    const allVals = value
+      .split('\n')
+      .map(v => v.trim())
+      .filter(Boolean)
+    this.setState({
+      multiline: value,
+      commaSeparated: allVals.join(','),
+      multiSelect: allVals.filter(v =>
+        MyFancyForm.availableOptions.includes(v),
+      )
+    })
+  }
+
+  handleMultiSelectChange = event => {
+    const allVals = Array.from(event.target.selectedOptions)
+      .map(o => o.value)
+    this.setState({
+      multiSelect: allVals,
+      multiline: allVals.join('\n'),
+      commaSeparated: allVals.join(','),
+    })
+  }
+
+  // lifecycle tangent
+  shouldComponentUpdate(nextProps, nextState) {
+    // console.log('shouldComponentUpdate nextProps', nextProps)
+    // console.log('shouldComponentUpdate nextState', nextState)
+    // console.log('shouldComponentUpdate this.state', this.state)
+    const allVals = nextState.commaSeparated
+      .split(',')
+      .map(v => v.trim())
+      .filter(Boolean)
+    // console.log(nextState.commaSeparated.includes('mango'))
+    if (allVals.filter(fruit => fruit === 'mango').length) {
+      console.error('You can\'t-a have-a de Mango!')
+      alert('You can\'t-a have-a de Mango!')
+      return false
+    }
+    return true
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // console.log('getSnapshotBeforeUpdate prevProps', prevProps)
+    // console.log('getSnapshotBeforeUpdate prevState', prevState)
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('componentDidUpdate prevProps', prevProps)
+    // console.log('componentDidUpdate prevState', prevState)
+    return true
+  }
+
+  render() {
+    const {
+      commaSeparated,
+      multiline,
+      multiSelect,
+    } = this.state
+
+    return (
+      <form>
+        <div>
+          <label>
+            comma separated values:
+            <br />
+            <input
+              type="text"
+              value={commaSeparated}
+              onChange={
+                this.handleCommaSeparatedChange
+              }
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            multiline values:
+            <br />
+            <textarea
+              value={multiline}
+              rows={
+                MyFancyForm.availableOptions
+                  .length
+              }
+              onChange={
+                this.handleMultilineChange
+              }
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            multiSelect values:
+            <br />
+            <select
+              multiple
+              value={multiSelect}
+              size={
+                MyFancyForm.availableOptions.length
+              }
+              onChange={
+                this.handleMultiSelectChange
+              }
+            >
+              {MyFancyForm.availableOptions.map(
+                optionValue => (
+                  <option
+                    key={optionValue}
+                    value={optionValue}
+                  >
+                    {optionValue}
+                  </option>
+                ),
+              )}
+            </select>
+          </label>
+        </div>
+      </form>
+    )
+  }
+}
+
+ReactDOM.render(
+  <MyFancyForm />,
+  document.getElementById('root'),
+)
+</script>
+
+</body>
+</html>
