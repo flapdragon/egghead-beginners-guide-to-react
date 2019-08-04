@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>egghead.io beginner's guide to react</title>
+</head>
+
+<body>
+
+<div id="root"></div>
+<script src="https://unpkg.com/react@16.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script src="https://unpkg.com/axios@0.16.2/dist/axios.min.js"></script>
+<style>
+/* font tangent */
+@font-face {
+font-family: 'Quicksand Regular';
+src: url('fonts/quicksand/Quicksand-Regular.otf') format('truetype');
+}
+body, select, input, textarea, a {
+  color: #1a1d42;
+  font: 16px "Quicksand Regular", sans-serif;
+  font-weight: 400;
+}
+a {
+  color: #1cccd9;
+  font-weight: 400;
+  text-decoration: none;
+}
+a:visited {
+  color: #2a87a3;
+  font-weight: 400;
+  text-decoration: none;
+}
+</style>
+
+<script type="text/babel">
+// 1
+// class UserCompany extends React.Component {
+//   state = {company: undefined, loaded: false}
+//   componentDidMount() {
+//     axios({
+//       url: 'https://api.github.com/graphql',
+//       method: 'post',
+//       data: {
+//         query: `{
+//           user(login: "${this.props.username}") {
+//             company
+//           }
+//         }`
+//       },
+//       headers: {Authorization: `bearer 4a1a79aa5fb74d6deb0204886b1e4c882f5f2fae`}
+//     }).then(response => {
+//       console.log('response', response)
+//       this.setState({
+//         company: response.data.data.user.company,
+//         loaded: true
+//       })
+//     }, error => {
+//       this.setState({
+//         error,
+//         loaded: true
+//       })
+//     })
+//   }
+//   render() {
+//     return this.state.loaded ? this.state.company || 'Unknown' : '...'
+//   }
+// }
+// const username = 'kentcdodds'
+// const element = (
+//   <div>
+//     <div>
+//       {`@${username} works at `}
+//       <UserCompany username={username} />
+//     </div>
+//   </div>
+// )
+//
+// ReactDOM.render(
+//   element,
+//   document.getElementById('root')
+// )
+
+// 2, convert to use array or usernames
+class UserCompany extends React.Component {
+  state = {company: undefined, loaded: false}
+  componentDidMount() {
+    axios({
+      url: 'https://api.github.com/graphql',
+      method: 'post',
+      data: {
+        query: `{
+          user(login: "${this.props.username}") {
+            company
+          }
+        }`
+      },
+      headers: {Authorization: `bearer 4a1a79aa5fb74d6deb0204886b1e4c882f5f2fae`}
+    }).then(response => {
+      console.log('response', response)
+      this.setState({
+        company: response.data.data.user.company,
+        loaded: true
+      })
+    }, error => {
+      this.setState({
+        error,
+        loaded: true
+      })
+    })
+  }
+  render() {
+    return this.state.loaded ? this.state.company || 'Unknown' : '...'
+  }
+}
+const usernames = [
+  { id: 0, username: 'flapdragon' },
+  { id: 1, username: 'kentcdodds' },
+  { id: 2, username: 'pnguyen12' },
+  { id: 3, username: 'jaredboice' },
+  { id: 4, username: 'jstewart0788' },
+  { id: 5, username: 'teropa' },
+  { id: 6, username: 'ednas' },
+  { id: 7, username: 'mgechev' },
+  { id: 8, username: 'coding-horror' },
+]
+const element = (
+  <div>
+    {usernames.map((item, index) => (
+      <div key={item.id}>
+        <a href={'https://github.com/' + item.username}>@{item.username}</a> works at
+        <UserCompany username={item.username} />
+      </div>
+    ))}
+  </div>
+)
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+)
+</script>
+
+</body>
+</html>
